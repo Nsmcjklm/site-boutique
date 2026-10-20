@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NØMIA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <img class="logo" src="Gemini_Generated_Image_r819cyr819cyr819-removebg-preview.png" alt="Logo">
+
+    <nav>
+        <a href="#">Accueil</a>
+        <a href="#products">Produits</a>
+
+        <span id="userDisplay">Invité</span>
+        <button id="logoutBtn">Déco</button>
+
+        <a href="#login">Connexion</a>
+        <a href="#register" class="highlight">+ Points</a>
+    </nav>
+</header>
+
+<main>
+
+<section class="hero">
+    <h1>Bienvenue sur NØMIA</h1>
+    <p>Explore librement. Inscris-toi pour gagner des récompenses 🎁</p>
+</section>
+
+<section id="products" class="container">
+    <h2>🔥 Produits populaires</h2>
+
+    <div class="products">
+
+        <div class="card">
+            <span class="badge">NEW</span>
+            <img src="m.jpg" alt="">
+            <h3>Produit 1</h3>
+            <p class="price">10€</p>
+            <button class="btn">Ajouter</button>
+        </div>
+
+        <div class="card">
+            <span class="badge">HOT</span>
+            <img src="produit2.jpg" alt="">
+            <h3>Produit 2</h3>
+            <p class="price">20€</p>
+            <button class="btn">Ajouter</button>
+        </div>
+
+    </div>
+</section>
+
+<section class="auth-section">
+
+    <div class="auth">
+        <h2>Connexion</h2>
+        <form id="loginForm">
+            <input type="text" id="login-name" placeholder="Nom" required>
+            <input type="password" id="login-password" placeholder="Mot de passe" required>
+            <button class="btn">Se connecter</button>
+        </form>
+    </div>
+
+    <div class="auth">
+        <h2>Inscription</h2>
+        <form id="registerForm">
+            <input type="text" id="register-name" placeholder="Nom" required>
+            <input type="password" id="register-password" placeholder="Mot de passe" required>
+            <button class="btn">S'inscrire</button>
+        </form>
+        <p class="reward">🎁 +100 points à l'inscription</p>
+    </div>
+
+</section>
+
+</main>
+
+<footer>
+    <p>© 2026 - NØMIA</p>
+</footer>
+
+<script>
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+
+const userDisplay = document.getElementById("userDisplay");
+const logoutBtn = document.getElementById("logoutBtn");
+
+function updateUI() {
+    if (currentUser) {
+        userDisplay.textContent = "👤 " + currentUser.username;
+        logoutBtn.style.display = "inline-block";
+    } else {
+        userDisplay.textContent = "Invité";
+        logoutBtn.style.display = "none";
+    }
+}
+
+updateUI();
+
+// INSCRIPTION
+document.getElementById("registerForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let username = document.getElementById("register-name").value;
+    let password = document.getElementById("register-password").value;
+
+    if (users.find(u => u.username === username)) {
+        alert("Compte déjà existant");
+        return;
+    }
+
+    let newUser = { username, password, points: 100 };
+    users.push(newUser);
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("Compte créé !");
+});
+
+// CONNEXION
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let username = document.getElementById("login-name").value;
+    let password = document.getElementById("login-password").value;
+
+    let user = users.find(u => u.username === username && u.password === password);
+
+    if (user) {
+        currentUser = user;
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        updateUI();
+    } else {
+        alert("Identifiants incorrects");
+    }
+});
+
+// DECO
+logoutBtn.onclick = () => {
+    currentUser = null;
+    localStorage.removeItem("currentUser");
+    updateUI();
+};
+</script>
+
+</body>
+</html>

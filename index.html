@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NØMIA — Streetwear</title>
+  <meta name="description" content="NØMIA, marque de streetwear : hoodies, t-shirts, bas et accessoires. Collection Fracture, livraison offerte dès 80 €.">
+  <meta name="theme-color" content="#0b0b0b">
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Bandeau d'annonce -->
+<div class="announce">Livraison offerte dès 80 € · Retours gratuits sous 30 jours · <b>-10 % avec le code NOMIA10</b></div>
+
+<!-- =================== EN-TÊTE =================== -->
+<header class="header" id="top">
+  <button class="icon-btn burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+    <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
+
+  <a href="#top" class="brand"><img src="images/logo.png" alt="NØMIA"></a>
+
+  <nav class="nav" id="nav">
+    <a href="#boutique" data-cat="new">Nouveautés</a>
+    <a href="#boutique" data-cat="all">Boutique</a>
+    <a href="#boutique" data-cat="hoodies">Hoodies</a>
+    <a href="#boutique" data-cat="accessoires">Accessoires</a>
+    <a href="#histoire">L'histoire</a>
+    <a href="#faq">Aide</a>
+  </nav>
+
+  <div class="actions">
+    <button class="icon-btn" id="searchBtn" aria-label="Rechercher">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    </button>
+    <button class="icon-btn account-btn" id="accountBtn" aria-label="Mon compte">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+      <span id="accountLabel">Connexion</span>
+    </button>
+    <button class="icon-btn" id="wishBtn" aria-label="Mes favoris">
+      <svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg>
+      <span class="count" id="wishCount" hidden>0</span>
+    </button>
+    <button class="icon-btn" id="cartBtn" aria-label="Mon panier">
+      <svg viewBox="0 0 24 24"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <span class="count" id="cartCount" hidden>0</span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- =================== HERO =================== -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <svg class="crack" viewBox="0 0 200 800" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M150 0 L120 120 L135 160 L95 300 L110 330 L60 520 L75 560 L20 800"/>
+    </svg>
+    <div class="hero-content">
+      <p class="eyebrow">Collection Fracture — Automne / Hiver 2026</p>
+      <img class="hero-logo" src="images/logo-fracture.png" alt="NØMIA">
+      <p class="hero-text">Des pièces lourdes, sombres et faites pour durer. Chaque fissure raconte quelque chose.</p>
+      <div class="hero-cta">
+        <a href="#boutique" class="btn" data-cat="all">Découvrir la boutique</a>
+        <button class="btn btn-ghost" data-open-auth="register">+100 points offerts à l'inscription</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Avantages -->
+  <section class="perks">
+    <div><b>Livraison offerte</b><span>dès 80 € d'achat</span></div>
+    <div><b>Retours gratuits</b><span>sous 30 jours</span></div>
+    <div><b>Programme fidélité</b><span>1 € dépensé = 1 point</span></div>
+    <div><b>Paiement sécurisé</b><span>CB, PayPal, Apple Pay</span></div>
+  </section>
+
+  <!-- =================== CATÉGORIES =================== -->
+  <section class="container" aria-labelledby="cat-title">
+    <h2 class="section-title" id="cat-title">Catégories</h2>
+    <div class="categories" id="categories"></div>
+  </section>
+
+  <!-- =================== BOUTIQUE =================== -->
+  <section class="container" id="boutique" aria-labelledby="shop-title">
+    <div class="shop-head">
+      <h2 class="section-title" id="shop-title">La boutique</h2>
+      <p class="muted" id="resultCount"></p>
+    </div>
+
+    <div class="toolbar">
+      <div class="chips" id="chips" role="tablist" aria-label="Filtrer par catégorie"></div>
+      <div class="toolbar-right">
+        <label class="search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="search" id="searchInput" placeholder="Rechercher un article…" aria-label="Rechercher un article">
+        </label>
+        <select id="sortSelect" aria-label="Trier">
+          <option value="featured">Tendances</option>
+          <option value="new">Nouveautés</option>
+          <option value="price-asc">Prix croissant</option>
+          <option value="price-desc">Prix décroissant</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid" id="grid"></div>
+    <p class="empty" id="empty" hidden>Aucun article ne correspond à ta recherche.</p>
+  </section>
+
+  <!-- =================== HISTOIRE =================== -->
+  <section class="story" id="histoire">
+    <div class="story-img" role="img" aria-label="Détails du hoodie Fracture : étiquette NØMIA et patch IØ"></div>
+    <div class="story-text">
+      <p class="eyebrow">L'histoire</p>
+      <h2>Né de la fissure</h2>
+      <p>NØMIA, c'est l'idée que les failles font partie de nous. Le Ø barré, la fissure qui traverse nos pièces : on ne les cache pas, on les porte.</p>
+      <p>Nos vêtements sont pensés en petites séries, avec des matières épaisses et des finitions soignées : étiquettes tissées, patch IØ sur la manche, coutures renforcées.</p>
+      <ul class="story-list">
+        <li><b>400 g/m²</b><span>coton lourd</span></li>
+        <li><b>Séries limitées</b><span>pas de surproduction</span></li>
+        <li><b>Conçu en France</b><span>design & contrôle qualité</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- =================== PROGRAMME POINTS =================== -->
+  <section class="container points" aria-labelledby="points-title">
+    <h2 class="section-title" id="points-title">Le club NØMIA</h2>
+    <div class="steps">
+      <div class="step"><span>01</span><h3>Inscris-toi</h3><p>100 points offerts dès la création de ton compte.</p></div>
+      <div class="step"><span>02</span><h3>Commande</h3><p>Chaque euro dépensé te rapporte 1 point.</p></div>
+      <div class="step"><span>03</span><h3>Profite</h3><p>100 points = 5 € de réduction sur ta prochaine commande.</p></div>
+    </div>
+    <div class="center"><button class="btn" data-open-auth="register">Rejoindre le club</button></div>
+  </section>
+
+  <!-- =================== FAQ =================== -->
+  <section class="container faq" id="faq" aria-labelledby="faq-title">
+    <h2 class="section-title" id="faq-title">Aide & FAQ</h2>
+    <details>
+      <summary>Quels sont les délais de livraison ?</summary>
+      <p>Livraison standard en 3 à 5 jours ouvrés (4,90 €, offerte dès 80 €). Livraison express en 24/48 h pour 9,90 €.</p>
+    </details>
+    <details>
+      <summary>Comment retourner un article ?</summary>
+      <p>Tu as 30 jours après réception pour nous renvoyer un article non porté, avec son étiquette. Le retour est gratuit et le remboursement se fait sous 5 jours.</p>
+    </details>
+    <details>
+      <summary>Comment fonctionnent les points ?</summary>
+      <p>1 € dépensé = 1 point. Dès 100 points, tu peux les utiliser au moment de payer : 100 points = 5 € de réduction. 100 points sont offerts à l'inscription.</p>
+    </details>
+    <details id="sizeGuide">
+      <summary>Guide des tailles</summary>
+      <p>Nos hoodies et t-shirts ont une coupe oversize : prends ta taille habituelle pour un effet ample, une taille en dessous pour une coupe plus classique.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Taille</th><th>Tour de poitrine</th><th>Longueur hoodie</th><th>Longueur t-shirt</th></tr></thead>
+          <tbody>
+            <tr><td>XS</td><td>86–90 cm</td><td>66 cm</td><td>68 cm</td></tr>
+            <tr><td>S</td><td>90–96 cm</td><td>68 cm</td><td>70 cm</td></tr>
+            <tr><td>M</td><td>96–102 cm</td><td>70 cm</td><td>72 cm</td></tr>
+            <tr><td>L</td><td>102–108 cm</td><td>72 cm</td><td>74 cm</td></tr>
+            <tr><td>XL</td><td>108–116 cm</td><td>74 cm</td><td>76 cm</td></tr>
+            <tr><td>XXL</td><td>116–124 cm</td><td>76 cm</td><td>78 cm</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+    <details>
+      <summary>Comment entretenir mes vêtements ?</summary>
+      <p>Lavage à 30 °C, à l'envers, sans sèche-linge. Ne pas repasser directement sur les impressions.</p>
+    </details>
+  </section>
+
+  <!-- =================== NEWSLETTER =================== -->
+  <section class="newsletter">
+    <h2>Ne rate aucun drop</h2>
+    <p>Nouvelles pièces, restocks et ventes privées : reçois-les en premier.</p>
+    <form id="newsletterForm">
+      <input type="email" required placeholder="Ton adresse e-mail" aria-label="Adresse e-mail">
+      <button class="btn">S'abonner</button>
+    </form>
+  </section>
+
+</main>
+
+<!-- =================== PIED DE PAGE =================== -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <img src="images/logo.png" alt="NØMIA" class="footer-logo">
+      <p class="muted">Streetwear sombre, pièces lourdes, séries limitées.</p>
+    </div>
+    <div>
+      <h4>Boutique</h4>
+      <a href="#boutique" data-cat="hoodies">Hoodies</a>
+      <a href="#boutique" data-cat="t-shirts">T-shirts</a>
+      <a href="#boutique" data-cat="bas">Bas</a>
+      <a href="#boutique" data-cat="accessoires">Accessoires</a>
+    </div>
+    <div>
+      <h4>Aide</h4>
+      <a href="#faq">Livraison & retours</a>
+      <a href="#sizeGuide" id="sizeGuideLink">Guide des tailles</a>
+      <a href="#faq">Programme de points</a>
+    </div>
+    <div>
+      <h4>Suivre NØMIA</h4>
+      <a href="#" aria-label="Instagram (lien à compléter)">Instagram</a>
+      <a href="#" aria-label="TikTok (lien à compléter)">TikTok</a>
+    </div>
+  </div>
+  <p class="copyright">© 2026 NØMIA — Tous droits réservés</p>
+</footer>
+
+<!-- =================== FENÊTRE PRODUIT =================== -->
+<dialog class="modal product-modal" id="productModal" aria-label="Détail de l'article">
+  <button class="close" data-close aria-label="Fermer">✕</button>
+  <div class="pm-grid">
+    <div class="pm-gallery">
+      <div class="pm-main" id="pmMain"></div>
+      <div class="pm-thumbs" id="pmThumbs"></div>
+    </div>
+    <div class="pm-info">
+      <p class="eyebrow" id="pmCat"></p>
+      <h2 id="pmName"></h2>
+      <p class="pm-price" id="pmPrice"></p>
+      <p class="muted" id="pmDesc"></p>
+
+      <div class="pm-sizes-head">
+        <span>Taille</span>
+        <a href="#sizeGuide" class="link" id="pmGuide">Guide des tailles</a>
+      </div>
+      <div class="sizes" id="pmSizes"></div>
+
+      <div class="pm-buy">
+        <div class="qty">
+          <button type="button" id="qtyMinus" aria-label="Moins">−</button>
+          <span id="qtyVal">1</span>
+          <button type="button" id="qtyPlus" aria-label="Plus">+</button>
+        </div>
+        <button class="btn btn-full" id="pmAdd">Ajouter au panier</button>
+        <button class="icon-btn wish-big" id="pmWish" aria-label="Ajouter aux favoris">
+          <svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg>
+        </button>
+      </div>
+      <p class="pm-points" id="pmPoints"></p>
+
+      <ul class="pm-details" id="pmDetails"></ul>
+    </div>
+  </div>
+</dialog>
+
+<!-- =================== PANIER =================== -->
+<dialog class="drawer" id="cartDrawer" aria-label="Panier">
+  <div class="drawer-head">
+    <h2>Panier</h2>
+    <button class="close" data-close aria-label="Fermer">✕</button>
+  </div>
+  <div class="ship-bar" id="shipBar"></div>
+  <div class="drawer-body" id="cartItems"></div>
+  <div class="drawer-foot" id="cartFoot">
+    <div class="line"><span>Sous-total</span><b id="cartSubtotal">0 €</b></div>
+    <p class="muted small">Livraison, code promo et points calculés à l'étape suivante.</p>
+    <button class="btn btn-full" id="checkoutBtn">Commander</button>
+  </div>
+</dialog>
+
+<!-- =================== CONNEXION / INSCRIPTION =================== -->
+<dialog class="modal small-modal" id="authModal" aria-label="Connexion">
+  <button class="close" data-close aria-label="Fermer">✕</button>
+  <div class="tabs">
+    <button class="tab active" data-tab="login">Connexion</button>
+    <button class="tab" data-tab="register">Inscription</button>
+  </div>
+
+  <form class="form" id="loginForm" data-pane="login">
+    <label>Nom d'utilisateur<input type="text" id="loginName" required autocomplete="username"></label>
+    <label>Mot de passe<input type="password" id="loginPass" required autocomplete="current-password"></label>
+    <p class="form-error" id="loginError"></p>
+    <button class="btn btn-full">Se connecter</button>
+  </form>
+
+  <form class="form" id="registerForm" data-pane="register" hidden>
+    <label>Nom d'utilisateur<input type="text" id="regName" required minlength="3" autocomplete="username"></label>
+    <label>E-mail<input type="email" id="regEmail" required autocomplete="email"></label>
+    <label>Mot de passe<input type="password" id="regPass" required minlength="6" autocomplete="new-password"></label>
+    <p class="form-error" id="registerError"></p>
+    <button class="btn btn-full">Créer mon compte</button>
+    <p class="reward">🎁 +100 points offerts à l'inscription</p>
+  </form>
+</dialog>
+
+<!-- =================== MON COMPTE =================== -->
+<dialog class="modal small-modal" id="accountModal" aria-label="Mon compte">
+  <button class="close" data-close aria-label="Fermer">✕</button>
+  <p class="eyebrow">Mon compte</p>
+  <h2 id="accName"></h2>
+  <div class="points-card">
+    <span>Mes points</span>
+    <b id="accPoints">0</b>
+    <small id="accPointsValue"></small>
+  </div>
+  <h3>Mes commandes</h3>
+  <div id="accOrders" class="orders"></div>
+  <button class="btn btn-ghost btn-full" id="logoutBtn">Se déconnecter</button>
+</dialog>
+
+<!-- =================== COMMANDE =================== -->
+<dialog class="modal checkout-modal" id="checkoutModal" aria-label="Commande">
+  <button class="close" data-close aria-label="Fermer">✕</button>
+  <div class="co-grid" id="coStep">
+    <form class="form" id="checkoutForm">
+      <h2>Livraison</h2>
+      <div class="row2">
+        <label>Prénom<input name="prenom" required autocomplete="given-name"></label>
+        <label>Nom<input name="nom" required autocomplete="family-name"></label>
+      </div>
+      <label>E-mail<input type="email" name="email" required autocomplete="email"></label>
+      <label>Adresse<input name="adresse" required autocomplete="street-address"></label>
+      <div class="row2">
+        <label>Code postal<input name="cp" required pattern="[0-9]{5}" inputmode="numeric" autocomplete="postal-code" title="5 chiffres"></label>
+        <label>Ville<input name="ville" required autocomplete="address-level2"></label>
+      </div>
+
+      <h3>Mode de livraison</h3>
+      <label class="radio"><input type="radio" name="ship" value="standard" checked> <span>Standard · 3 à 5 jours</span><b id="shipStdPrice">4,90 €</b></label>
+      <label class="radio"><input type="radio" name="ship" value="express"> <span>Express · 24/48 h</span><b>9,90 €</b></label>
+
+      <div class="demo-pay">
+        <b>Paiement</b>
+        <p>Site de démonstration : la commande est simulée, aucune carte bancaire n'est demandée ni débitée.</p>
+      </div>
+      <button class="btn btn-full" id="payBtn">Valider la commande</button>
+    </form>
+
+    <aside class="summary">
+      <h2>Récapitulatif</h2>
+      <div id="coItems" class="co-items"></div>
+      <div class="promo">
+        <input id="promoInput" placeholder="Code promo" aria-label="Code promo">
+        <button type="button" class="btn btn-ghost" id="promoBtn">Appliquer</button>
+      </div>
+      <p class="small" id="promoMsg"></p>
+      <label class="use-points" id="usePointsWrap" hidden>
+        <input type="checkbox" id="usePoints"> <span id="usePointsLabel"></span>
+      </label>
+      <div class="lines" id="coLines"></div>
+    </aside>
+  </div>
+
+  <div class="confirm" id="coDone" hidden>
+    <div class="check">✓</div>
+    <h2>Merci pour ta commande !</h2>
+    <p id="doneText"></p>
+    <button class="btn" data-close>Continuer mes achats</button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
